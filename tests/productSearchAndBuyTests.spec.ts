@@ -18,8 +18,8 @@ test("Navigate to the shopping cart", async ({ page }) => {
 
   await pm.onHomePage().goToShoppingCart();
 
-  const pageTitle = await page.title();
-  expect(pageTitle).toContain("Winkelwagentje");
+  const shoppingCartPageTitle = await page.title();
+  expect(shoppingCartPageTitle).toContain("Winkelwagentje");
 });
 
 test("Add product to the basket", async ({ page }) => {
@@ -42,4 +42,33 @@ test("Add product to the basket", async ({ page }) => {
   await expect(await page.locator(".product-details__title")).toContainText(
     productName
   );
+});
+
+test("Find dutch books using filter", async ({ page }) => {
+  const pm = new pageManager(page);
+  await pm.onHomePage().openHomePageWithCookiesAccepted();
+  await pm.onHomePage().navigateToCategory("Boeken", "Boeken", "Alle boeken");
+  const dutchBooksFilter = page.locator(".ui-input-checkbox", {
+    hasText: "Nederlands",
+  });
+  await dutchBooksFilter.click();
+  await pm
+    .onSearchResultsPage()
+    .checkSearchResultsHeaderToBe("Nederlandse Boeken");
+});
+
+test("Navigate to Babykamermeubels category", async ({ page }) => {
+  const pm = new pageManager(page);
+  await pm.onHomePage().openHomePageWithCookiesAccepted();
+
+  await pm
+    .onHomePage()
+    .navigateToCategory(
+      "Zwanger, Baby & Peuter",
+      "Babykamer & Slapen",
+      "Babykamermeubels"
+    );
+  await pm
+    .onSearchResultsPage()
+    .checkSearchResultsHeaderToBe("Babykamermeubels");
 });

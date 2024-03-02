@@ -39,4 +39,37 @@ export class homePage {
 
     await shoppingCartIcon.click();
   }
+
+  async navigateToCategory(
+    categoryName: string,
+    subCategoryName: string,
+    finalCategoryName: string
+  ) {
+    const categoriesMenu = await this.page.getByRole("button", {
+      name: "Categorieën",
+    });
+    await categoriesMenu.hover();
+
+    const categorylink = await this.page.locator(".wsp-category-nav-ab__link", {
+      hasText: categoryName,
+    });
+
+    await categorylink.click();
+
+    const subCategoryLink = await this.page
+      .locator(".wsp-sub-nav-group__title", {
+        hasText: subCategoryName,
+      })
+      .first();
+
+    await subCategoryLink.click();
+
+    const finalCategoryLink = await this.page
+      .locator(".wsp-sub-nav-group__link", {
+        hasText: finalCategoryName,
+      })
+      .first();
+
+    await finalCategoryLink.click();
+  }
 }
