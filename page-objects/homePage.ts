@@ -1,4 +1,4 @@
-import { type Page } from "@playwright/test";
+import { expect, type Page } from "@playwright/test";
 
 export class homePage {
   readonly page: Page;
@@ -17,8 +17,10 @@ export class homePage {
   //Open bol.com home page with cookies accepted
   async openHomePageWithCookiesAccepted() {
     await this.page.goto("https://www.bol.com/nl/nl/");
-
-    await this.acceptCookiesButton.click();
+    await expect(async () => {
+      await this.acceptCookiesButton.click();
+      await expect(await this.acceptCookiesButton).toBeHidden();
+    }).toPass();
     await this.acceptLanguageButton.click();
   }
 

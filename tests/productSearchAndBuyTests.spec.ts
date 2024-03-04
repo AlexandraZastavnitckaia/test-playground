@@ -1,6 +1,5 @@
 import { test, expect } from "@playwright/test";
 import { pageManager } from "../page-objects/pageManager";
-import { faker } from "@faker-js/faker";
 
 test("Search a product via the searchbar", async ({ page }) => {
   const pm = new pageManager(page);
@@ -36,7 +35,6 @@ test("Add product to the basket", async ({ page }) => {
   const addToBasketButton = await firstProductOnSearchResults.locator(
     '[aria-label="In winkelwagen"]'
   );
-
   await addToBasketButton.click();
   await expect(await page.title()).toContain("Winkelwagentje");
   await expect(await page.locator(".product-details__title")).toContainText(
@@ -44,17 +42,22 @@ test("Add product to the basket", async ({ page }) => {
   );
 });
 
-test("Find dutch books using filter", async ({ page }) => {
+test("Find dutch Ebooks using filter", async ({ page }) => {
   const pm = new pageManager(page);
   await pm.onHomePage().openHomePageWithCookiesAccepted();
   await pm.onHomePage().navigateToCategory("Boeken", "Boeken", "Alle boeken");
   const dutchBooksFilter = page.locator(".ui-input-checkbox", {
     hasText: "Nederlands",
   });
+  const ebooksFilter = page.locator(".ui-input-checkbox", {
+    hasText: "Ebook",
+  });
   await dutchBooksFilter.click();
+  await ebooksFilter.click();
+
   await pm
     .onSearchResultsPage()
-    .checkSearchResultsHeaderToBe("Nederlandse Boeken");
+    .checkSearchResultsHeaderToBe("Nederlandse Ebooks");
 });
 
 test("Navigate to Babykamermeubels category", async ({ page }) => {

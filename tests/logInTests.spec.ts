@@ -11,6 +11,7 @@ test("login with incorrect email", async ({ page }) => {
   await pm.onHomePage().goToLoginPage();
   await pm.onLoginPage().fillInLoginForm("test@test", password);
   await pm.onLoginPage().submitLoginForm();
+  await errorMessage.waitFor({ state: "visible" });
 
   await expect(errorMessage).toHaveText("E-mailadres is niet correct");
 });
@@ -19,27 +20,29 @@ test("login with unmatching email and password", async ({ page }) => {
   const pm = new pageManager(page);
   const email = faker.internet.email();
   const password = faker.internet.password();
-  const errorMessage = page.locator('[id = "msg2"]');
+  const errorMessage = page.locator('[data-testid="alert-body"]');
 
   await pm.onHomePage().openHomePageWithCookiesAccepted();
   await pm.onHomePage().goToLoginPage();
   await pm.onLoginPage().fillInLoginForm(email, password);
   await pm.onLoginPage().submitLoginForm();
+  await errorMessage.waitFor({ state: "visible" });
 
-  await expect(errorMessage).toHaveText("Wachtwoord is verplicht");
+  await expect(errorMessage).toHaveText(
+    "De combinatie van e-mailadres en wachtwoord is niet geldig."
+  );
 });
 
 test("login with empty password", async ({ page }) => {
   const pm = new pageManager(page);
   const email = faker.internet.email();
-  const errorMessage = page.locator('[data-testid="alert-body"]');
+  const errorMessage = page.locator('[id = "msg2"]');
 
   await pm.onHomePage().openHomePageWithCookiesAccepted();
   await pm.onHomePage().goToLoginPage();
   await pm.onLoginPage().fillInLoginForm(email, "");
   await pm.onLoginPage().submitLoginForm();
+  await errorMessage.waitFor({ state: "visible" });
 
-  await expect(errorMessage).toHaveText(
-    "De combinatie van e-mailadres en wachtwoord is niet geldig."
-  );
+  await expect(errorMessage).toHaveText("Wachtwoord is verplicht");
 });
