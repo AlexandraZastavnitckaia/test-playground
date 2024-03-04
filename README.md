@@ -17,7 +17,9 @@ The test are based on the given requirement:
 - On the homepage, all footer links have an 'href' attribute filled with the correct link
 
 
-## Test cases I automated based on the requirements: 
+## Test cases I automated based on the requirements:
+
+This is the minimum set of test cases to cover the given requirements. We can always increase the number of test cases with boreder cases and classes of equivalence. 
 
 1. "Search product via the searchbar:"
    - Go to bol.com page
