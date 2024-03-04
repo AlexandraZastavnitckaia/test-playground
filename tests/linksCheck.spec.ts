@@ -1,6 +1,10 @@
 import { test, expect } from "@playwright/test";
 import { pageManager } from "../page-objects/pageManager";
 
+// From the requirements "On the homepage, all footer links have an 'href' attribute filled with the correct link" it is not clear
+// what do we want to verify: link 'href' attribute presence or the correctness of links content. In real life I would clarify the
+// requirements but withing this task I've created two tests to cover both scenarious.
+
 test("All footer links have an 'href' attribute", async ({ page }) => {
   const pm = new pageManager(page);
   await pm.onHomePage().openHomePageWithCookiesAccepted();
