@@ -24,7 +24,7 @@ test("Navigate to the shopping cart", async ({ page }) => {
 test("Add product to the basket", async ({ page }) => {
   const pm = new pageManager(page);
   await pm.onHomePage().openHomePageWithCookiesAccepted();
-  await pm.onHomePage().searchProductViaSearchbar("playmobil");
+  await pm.onHomePage().searchProductViaSearchbar("nintendo switch");
 
   const firstProductOnSearchResults = await page
     .locator(".product-list>li")
