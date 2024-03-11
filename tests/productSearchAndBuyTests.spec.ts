@@ -92,5 +92,10 @@ test("Search for a product using autosuggestions", async ({ page }) => {
 
   const productSuggestions = page.locator(".wsp-search-form__suggestions");
   const firstSuggestionOnTheList = productSuggestions.locator("ul>li").first();
+  const selectedSuggestionText = await firstSuggestionOnTheList.innerText();
   await firstSuggestionOnTheList.click();
+
+  await expect(await page.locator('[class = "h1 bol_header"]')).toContainText(
+    selectedSuggestionText
+  );
 });
