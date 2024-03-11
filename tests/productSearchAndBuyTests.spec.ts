@@ -36,6 +36,13 @@ test("Add product to the basket", async ({ page }) => {
     '[aria-label="In winkelwagen"]'
   );
   await addToBasketButton.click();
+  const popupModuleWithSuggestions = page.locator('[class="modal__window"]');
+  if (await popupModuleWithSuggestions.isVisible()) {
+    await page
+      .getByRole("button", { name: "Verder naar bestellen" })
+      .first()
+      .click();
+  }
   await expect(await page.title()).toContain("Winkelwagentje");
   await expect(await page.locator(".product-details__title")).toContainText(
     productName
@@ -74,4 +81,16 @@ test("Navigate to Babykamermeubels category", async ({ page }) => {
   await pm
     .onSearchResultsPage()
     .checkSearchResultsHeaderToBe("Babykamermeubels");
+});
+
+test("Search for a product using autosuggestions", async ({ page }) => {
+  const pm = new pageManager(page);
+  await pm.onHomePage().openHomePageWithCookiesAccepted();
+
+  const searchbar = page.locator('[id="searchfor"]');
+  await searchbar.fill("lego");
+
+  const productSuggestions = page.locator(".wsp-search-form__suggestions");
+  const firstSuggestionOnTheList = productSuggestions.locator("ul>li").first();
+  await firstSuggestionOnTheList.click();
 });

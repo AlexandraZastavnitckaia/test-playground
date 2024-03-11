@@ -8,6 +8,7 @@ import { pageManager } from "../page-objects/pageManager";
 test("All footer links have an 'href' attribute", async ({ page }) => {
   const pm = new pageManager(page);
   await pm.onHomePage().openHomePageWithCookiesAccepted();
+  await page.waitForLoadState();
 
   const linkList = await page.locator("footer a").all();
 

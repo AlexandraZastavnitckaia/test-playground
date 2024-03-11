@@ -26,6 +26,7 @@ export class homePage {
 
   async goToLoginPage() {
     await this.page.getByRole("link", { name: "Inloggen" }).click();
+    await this.page.waitForLoadState();
   }
 
   async searchProductViaSearchbar(productName: string) {
@@ -40,6 +41,7 @@ export class homePage {
     const shoppingCartIcon = this.page.locator("wsp-basket-header-icon");
 
     await shoppingCartIcon.click();
+    await this.page.waitForLoadState();
   }
 
   async navigateToCategory(
